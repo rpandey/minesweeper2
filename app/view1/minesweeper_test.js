@@ -1,16 +1,21 @@
 'use strict';
 
-describe('myApp.view1 module', function() {
+describe('myApp.minesweeper module', function() {
+var scope,
+    mineSweeperCtrl;
 
-  beforeEach(module('myApp.view1'));
+  beforeEach(module('myApp.minesweeper'),inject(function ($rootScope, $controller ) {
+    scope = $rootScope.$new();
+  }));
 
-  describe('view1 controller', function(){
-
-    it('should ....', inject(function($controller) {
-      //spec body
-      var view1Ctrl = $controller('View1Ctrl');
-      expect(view1Ctrl).toBeDefined();
+  describe('mineSweeperCtrl controller', function(){
+    mineSweeperCtrl = function() {
+      return $controller('mineSweeperCtrl', {
+        $scope: scope
+      });
+    };
+    it('should just check mineSweeperCtrl to be defined', inject(function($controller) {
+      expect(mineSweeperCtrl).toBeDefined();
     }));
-
   });
 });
