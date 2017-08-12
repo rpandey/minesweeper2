@@ -23,3 +23,11 @@
   content: "|";
   padding-right: 0.3em;
 }
+.minefield {
+  line-height:0;
+  border-spacing:0;
+}
+
+.minefield td {
+  padding:0
+}
