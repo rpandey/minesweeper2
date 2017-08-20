@@ -3,7 +3,7 @@
 </h1>
 
 <table  border="1">
-    <tr ng-repeat="row in minefield.rows">{{row.spots.val}}
+    <tr ng-repeat="row in minefield.rows">
         <td ng-repeat="spot in row.spots" ng-click="spot.isCovered = false">
             <img ng-if="spot.isCovered" src="assets/images/covered.png" />
             <img ng-if="!spot.isCovered && spot.content == 'empty'" src="assets/images/empty.png" />

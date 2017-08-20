@@ -18,7 +18,7 @@ angular.module('myApp.minesweeper', ['ngRoute'])
             },
             count:0
           }],
-          max=3;
+          max=5;
 
       var createMinefield = function() {
 
@@ -74,9 +74,13 @@ angular.module('myApp.minesweeper', ['ngRoute'])
           getSpot =  function(minefield, row, column) {
             console.log("row: ",row,"column",column);
            // if(row>0 && column>0 && column <3 && row <3){
-                var i,j;
-                for(i=(row==0 ?0:row-1);i<(row==max-1 ?max:row+1);i++){
-                    for(j=(column==0?0:column-1);j< (column==max-1?max:column+1); j++){
+                var i,j,
+                    rowMax=(row==max-1 ?max-1:row+1),
+                    rowMin=(row==0 ?0:row-1),
+                    colMin=(column==0?0:column-1),
+                    colMax=(column==max-1?max-1:column+1);
+                for(i=rowMin;i<rowMax+1;i++){
+                    for(j=colMin;j< colMax+1; j++){
                         if(minefield.rows[i].spots[j].content=='empty'){
                             minefield.rows[i].spots[j].content="sumNum";
                         }
