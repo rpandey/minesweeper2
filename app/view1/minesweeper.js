@@ -18,7 +18,8 @@ angular.module('myApp.minesweeper', ['ngRoute'])
             },
             count:0
           }],
-          max=5;
+          max=4,
+          flagPosBombCount=[];
 
       var createMinefield = function() {
             minefield.rows = [];
@@ -32,7 +33,7 @@ angular.module('myApp.minesweeper', ['ngRoute'])
                 spot.content = "empty";
                 spot.isCovered = true;
                 row.spots.push(spot);
-                console.log(row.spots[j].content);
+               // console.log(row.spots[j].content);
               }minefield.rows.push(row);
             }
           return minefield;
@@ -51,21 +52,55 @@ angular.module('myApp.minesweeper', ['ngRoute'])
           },
 
           getSpot =  function(minefield, row, column) {
-            console.log("row: ",row,"column",column);
+            //console.log("row: ",row,"column",column);
                 var i,j,
                     rowMax=(row==max-1 ?max-1:row+1),
                     rowMin=(row==0 ?0:row-1),
                     colMin=(column==0?0:column-1),
-                    colMax=(column==max-1?max-1:column+1);
-                for(i=rowMin;i<rowMax+1;i++){
-                    for(j=colMin;j< colMax+1; j++){
-                        if(minefield.rows[i].spots[j].content=='empty'){
-                            minefield.rows[i].spots[j].content="sumNum";
-                        }
+                    colMax=(column==max-1?max-1:column+1),
+                    countArr=[];
+
+              for(i=rowMin;i<rowMax+1;i++){
+                  var count=0,countBomb=0;
+                  for(j=colMin;j< colMax+1; j++){
+                      if(minefield.rows[i].spots[j].content=='empty'){
+                          //countArr[j]=
+                          //  flagPosBombCount[j]=count++;
+                          getBombCount(minefield, i, j);
+                          minefield.rows[i].spots[j].content=count;
+                      }
+                  }
+                  //console.log("countBomb:",countBomb)
+              }
+
+            return minefield.rows[row].spots[column];
+          },
+          getBombCount = function(minefield, row, column){
+              console.log("getBombCount");
+              var rowMax=(row==max-1 ?max-1:row+1),
+                  rowMin=(row==0 ?0:row-1),
+                  colMin=(column==0?0:column-1),
+                  colMax=(column==max-1?max-1:column+1),
+                  i,
+                  j;
+
+            for(i=rowMin;i<rowMax+1;i++){
+                var count=0,countBomb=0;
+                for(j=colMin;j< colMax+1; j++){
+                    if(minefield.rows[i].spots[j].content!=='empty'){
+                        countBomb++;
+                        //console.log("minefield.rows[i].spots[j]",i,j,"\ncountbomb:",countBomb);
+                        flagPosBombCount.push({
+                            row:i,
+                            column:j,
+                            count:countBomb
+                        });
+
                     }
                 }
-            return minefield.rows[row].spots[column];
-          };
+                //console.log("countBomb:",countBomb)
+            }
+        };
 
          /* createFlags = function (row, column) {
             var i,
@@ -88,5 +123,9 @@ angular.module('myApp.minesweeper', ['ngRoute'])
       $scope.minefield = createMinefield();
       for(var i=0;i<max;i++) {
         createRandomMine();
+      }
+        console.log(flagPosBombCount);
+      for(var x=0;x<flagPosBombCount.length;x++){
+          console.log("hi");
       }
     }]);
