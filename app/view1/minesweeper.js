@@ -18,7 +18,7 @@ angular.module('myApp.minesweeper', ['ngRoute'])
             },
             count:0
           }],
-          max=4,
+          max=3,
           flagPosBombCount=[];
 
       var createMinefield = function() {
@@ -52,7 +52,7 @@ angular.module('myApp.minesweeper', ['ngRoute'])
           },
 
           getSpot =  function(minefield, row, column) {
-            //console.log("row: ",row,"column",column);
+            console.log("row: ",row,"column",column);
                 var i,j,
                     rowMax=(row==max-1 ?max-1:row+1),
                     rowMin=(row==0 ?0:row-1),
@@ -66,15 +66,14 @@ angular.module('myApp.minesweeper', ['ngRoute'])
                       if(minefield.rows[i].spots[j].content=='empty'){
                           //countArr[j]=
                           //  flagPosBombCount[j]=count++;
-                          getBombCount(minefield, i, j);
+
                           minefield.rows[i].spots[j].content=count;
                       }
                   }
-                  //console.log("countBomb:",countBomb)
               }
-
             return minefield.rows[row].spots[column];
           },
+
           getBombCount = function(minefield, row, column){
               console.log("getBombCount");
               var rowMax=(row==max-1 ?max-1:row+1),
@@ -82,50 +81,34 @@ angular.module('myApp.minesweeper', ['ngRoute'])
                   colMin=(column==0?0:column-1),
                   colMax=(column==max-1?max-1:column+1),
                   i,
-                  j;
+                  j,
+                  count,
+                  countBomb=0;
 
             for(i=rowMin;i<rowMax+1;i++){
-                var count=0,countBomb=0;
                 for(j=colMin;j< colMax+1; j++){
-                    if(minefield.rows[i].spots[j].content!=='empty'){
+                    if(minefield.rows[i].spots[j].content=='bomb'){
                         countBomb++;
-                        //console.log("minefield.rows[i].spots[j]",i,j,"\ncountbomb:",countBomb);
-                        flagPosBombCount.push({
-                            row:i,
-                            column:j,
-                            count:countBomb
-                        });
-
                     }
                 }
-                //console.log("countBomb:",countBomb)
             }
+              flagPosBombCount.push({
+                  row:row,
+                  column:column,
+                  count:countBomb
+              });
         };
-
-         /* createFlags = function (row, column) {
-            var i,
-                j;
-
-              for(i=(row==0 ?0:row-1);i< column +1 && i >0 && i<3; i++) {
-
-                for(j=column;j< row-1 && j >0 && j<3; j--) {
-                  minefieldWithFlagCount.push({
-                    position:{
-                      row:i,
-                      column:j
-                    },
-                     count:0
-                  });
-                }
-              }
-          }*/
 
       $scope.minefield = createMinefield();
       for(var i=0;i<max;i++) {
         createRandomMine();
       }
-        console.log(flagPosBombCount);
-      for(var x=0;x<flagPosBombCount.length;x++){
-          console.log("hi");
+      console.log(flagPosBombCount);
+      for (var i=0;i<max;i++){
+          for(var j=0;j<max;j++) {
+              if(minefield.rows[i].spots[j].content!=='bomb'){
+                  getBombCount(minefield, i, j);
+              }
+          }
       }
     }]);
