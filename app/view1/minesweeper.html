@@ -5,6 +5,9 @@
 <table  border="1">
     <tr ng-repeat="row in minefield.rows">
         <td ng-repeat="spot in row.spots" ng-click="spot.isCovered = false">
+            <span ng-if="spot.content !=='empty' && spot.content!=='bomb' && spot.content!==0" ng-show="!spot.isCovered">
+                {{spot.content}}
+            </span>
             <img ng-if="spot.isCovered" src="assets/images/covered.png" />
             <img ng-if="!spot.isCovered && spot.content == 'empty'" src="assets/images/empty.png" />
             <img ng-if="!spot.isCovered && spot.content == 'bomb'" src="assets/images/mine.png" />

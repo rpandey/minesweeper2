@@ -18,7 +18,7 @@ angular.module('myApp.minesweeper', ['ngRoute'])
             },
             count:0
           }],
-          max=3,
+          max=5,
           flagPosBombCount=[];
 
       var createMinefield = function() {
@@ -64,9 +64,6 @@ angular.module('myApp.minesweeper', ['ngRoute'])
                   var count=0,countBomb=0;
                   for(j=colMin;j< colMax+1; j++){
                       if(minefield.rows[i].spots[j].content=='empty'){
-                          //countArr[j]=
-                          //  flagPosBombCount[j]=count++;
-
                           minefield.rows[i].spots[j].content=count;
                       }
                   }
@@ -75,7 +72,6 @@ angular.module('myApp.minesweeper', ['ngRoute'])
           },
 
           getBombCount = function(minefield, row, column){
-              console.log("getBombCount");
               var rowMax=(row==max-1 ?max-1:row+1),
                   rowMin=(row==0 ?0:row-1),
                   colMin=(column==0?0:column-1),
@@ -85,13 +81,15 @@ angular.module('myApp.minesweeper', ['ngRoute'])
                   count,
                   countBomb=0;
 
-            for(i=rowMin;i<rowMax+1;i++){
-                for(j=colMin;j< colMax+1; j++){
-                    if(minefield.rows[i].spots[j].content=='bomb'){
-                        countBomb++;
+                for(i=rowMin;i<rowMax+1;i++){
+                    for(j=colMin;j< colMax+1; j++){
+                        if(minefield.rows[i].spots[j].content=='bomb'){
+                            countBomb++;
+                        }
                     }
                 }
-            }
+              minefield.rows[row].spots[column].content=countBomb;
+              console.log("minefield.rows["+row+"].spots["+column+"]: "+minefield.rows[row].spots[column].content);
               flagPosBombCount.push({
                   row:row,
                   column:column,
@@ -100,7 +98,7 @@ angular.module('myApp.minesweeper', ['ngRoute'])
         };
 
       $scope.minefield = createMinefield();
-      for(var i=0;i<max;i++) {
+      for(var i=0;i<max+2;i++) {
         createRandomMine();
       }
       console.log(flagPosBombCount);
@@ -111,4 +109,5 @@ angular.module('myApp.minesweeper', ['ngRoute'])
               }
           }
       }
+        $scope.flagPosBombCount=flagPosBombCount;
     }]);

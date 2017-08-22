@@ -31,8 +31,25 @@
 .minefield td {
   padding:0;
 }
+h1 {
+  text-align: center;
+}
+table {
+  margin: 0 auto;
+  border: 3px solid rgb(7, 13, 21);
+  box-shadow: 10px 10px 15px #888888;
+}
 td{
-
+  background-color: rgba(135, 135, 177, 0.35);
+  border: 1px solid rgba(149, 168, 183, 0.45);
+  color:whitesmoke;
   height:24px;
   width:24px;
+}
+td span {
+  background-color: rgba(65, 222, 52, 0.53);
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-align: center;
 }
