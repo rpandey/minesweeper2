@@ -1,16 +1,29 @@
 <h1>
     Minesweeper
 </h1>
+<div class="level">
+   <!-- <label for="level">Level: </label>
+    <select name="level" id="level" ng-change="hello()" data-ng-options="option in options">
+      &lt;!&ndash;  <option ng-repeat="" value={{option}}>{{option}}</option>&ndash;&gt;
+    </select>
+    <select  ng-model="levels" ng-change="changedValue(levels.name)"
+             data-ng-options="level as level.name for level in levels">
+        <option value="">Select a level</option>
+    </select>-->
+    <select ng-model="selectedLevel" ng-change="changedValue(selectedLevel)">
+        <option ng-repeat="option in options" value="{{option}}">{{option}}</option>
+    </select>
+</div>
 
-<table  border="1">
+<table border="1">
     <tr ng-repeat="row in minefield.rows">
-        <td ng-repeat="spot in row.spots" ng-click="spot.isCovered = false">
-            <span ng-if="spot.content !=='empty' && spot.content!=='bomb' && spot.content!==0" ng-show="!spot.isCovered">
-                {{spot.content}}
+        <td ng-repeat="place in row.places" ng-click="place.isCovered = false">
+            <span ng-if="place.content !=='empty' && place.content!=='bomb' && place.content!==0" ng-show="!place.isCovered">
+                {{place.content}}
             </span>
-            <img ng-if="spot.isCovered" src="assets/images/covered.png" />
-            <img ng-if="!spot.isCovered && spot.content == 'empty'" src="assets/images/empty.png" />
-            <img ng-if="!spot.isCovered && spot.content == 'bomb'" src="assets/images/mine.png" />
+            <img ng-if="place.isCovered" src="assets/images/covered.png" />
+            <img ng-if="!place.isCovered && place.content == 'empty'" src="assets/images/empty.png" />
+            <img ng-if="!place.isCovered && place.content == 'bomb'" src="assets/images/mine.png" />
         </td>
     </tr>
 </table>
